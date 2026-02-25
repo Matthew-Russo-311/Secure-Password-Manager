@@ -3,6 +3,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from flask_jwt_extended import create_access_token
 from app import db
 from app.models.user import User
+import re
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -13,6 +14,10 @@ def register():
     # Validate required fields
     if not data or not all(k in data for k in ('username', 'email', 'password')):
         return jsonify({'error': 'Username, email and password are required'}), 400
+    
+    email_regex = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    if not re.match(email_regex, data['email']):
+        return jsonify({'error': 'Invalid email format'}), 400
 
     # Check for existing user
     if User.query.filter_by(email=data['email']).first():
