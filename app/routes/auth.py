@@ -4,6 +4,7 @@ from flask_jwt_extended import create_access_token
 from app import db
 from app.models.user import User
 import re
+from app import db, limiter
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -42,6 +43,7 @@ from flask_jwt_extended import create_access_token
 from werkzeug.security import check_password_hash
 
 @auth_bp.route('/login', methods=['POST'])
+@limiter.limit("5 per minute")
 def login():
     data = request.get_json()
 
