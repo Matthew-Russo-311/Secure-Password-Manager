@@ -3,6 +3,7 @@ from flask_jwt_extended import jwt_required, get_jwt_identity
 from app import db
 from app.models.password_entry import PasswordEntry
 from app.utils.encryption import encrypt_password, decrypt_password
+from app.utils.audit import log_action
 
 passwords_bp = Blueprint('passwords', __name__)
 
@@ -26,6 +27,8 @@ def create_password():
     db.session.add(new_entry)
     db.session.commit()
 
+    log_action(current_user_id, 'CREATE', new_entry.id)
+
     return jsonify({'message': 'Password entry created successfully', 'id': new_entry.id}), 201
 
 # READ ALL
@@ -42,6 +45,8 @@ def get_passwords():
         per_page=per_page,
         error_out=False
     )
+
+    log_action(current_user_id, 'READ_ALL')
 
     return jsonify({
         'entries': [{
@@ -71,6 +76,8 @@ def get_password(id):
 
     if not entry:
         return jsonify({'error': 'Entry not found'}), 404
+    
+    log_action(current_user_id, 'READ', entry.id)
 
     return jsonify({
         'id': entry.id,
@@ -102,6 +109,8 @@ def update_password(id):
 
     db.session.commit()
 
+    log_action(current_user_id, 'UPDATE', entry.id)
+
     return jsonify({'message': 'Entry updated successfully'}), 200
 
 # DELETE
@@ -116,5 +125,7 @@ def delete_password(id):
 
     db.session.delete(entry)
     db.session.commit()
+
+    log_action(current_user_id, 'DELETE', entry.id)
 
     return jsonify({'message': 'Entry deleted successfully'}), 200

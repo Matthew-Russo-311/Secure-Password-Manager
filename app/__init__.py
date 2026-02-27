@@ -35,6 +35,7 @@ def create_app():
 
     from app.models.user import User
     from app.models.password_entry import PasswordEntry
+    from app.models.audit_log import AuditLog
 
     @app.errorhandler(RateLimitExceeded)
     def handle_rate_limit(e):
