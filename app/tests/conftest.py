@@ -8,7 +8,7 @@ def app():
         'TESTING': True,
         'SQLALCHEMY_DATABASE_URI': 'sqlite:///test.db',
         'JWT_SECRET_KEY': 'test-secret-key-that-is-long-enough-for-sha256',
-        'ENCRYPTION_KEY': 'your_fernet_test_key_here',
+        'ENCRYPTION_KEY': 'SSRq9YMvQWHlkqJL5gms-6PpDzaqO5RHssPc6yVEvY4=',
         'RATELIMIT_ENABLED': False,
         'RATELIMIT_STORAGE_URI': 'memory://',
     }
