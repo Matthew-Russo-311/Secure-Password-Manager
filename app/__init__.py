@@ -58,5 +58,13 @@ def create_app(config=None):
     @app.errorhandler(405)
     def method_not_allowed(e):
         return jsonify({'error': 'Method not allowed'}), 405
+    
+    @app.route('/')
+    def index():
+        return jsonify({
+            'message': 'Secure Password Manager API',
+            'status': 'running',
+            'docs': 'https://github.com/Matthew-Russo-311/Secure-Password-Manager'
+        }), 200
 
     return app
