@@ -2,14 +2,6 @@
 
 A RESTful API for securely storing and managing passwords, built with Flask and PostgreSQL. Passwords are encrypted at rest using Fernet symmetric encryption, and all endpoints are protected with JWT authentication.
 
-## Live Demo
-
-![Deploy](https://img.shields.io/badge/deployed-railway-blueviolet)
-
-API live at: https://secure-password-manager-production.up.railway.app
-
-> **Note:** This is a demo environment. Do not store real passwords.
-
 ## Features
 
 - User registration and login with bcrypt password hashing
